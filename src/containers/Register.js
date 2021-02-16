@@ -2,8 +2,6 @@
 // React required
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-// Amplify required
-import { Auth } from "aws-amplify";
 // Components
 import LoaderButton from "../components/LoaderButton";
 // Libs
@@ -51,25 +49,7 @@ export default function Register() {
 
         setIsLoading(true);
 
-        try {
-
-            // Sending data to AWS Cognito via Amplify - Auth.signUp
-            const newUser = await Auth.signUp({
-                username: fields.email,
-                password: fields.password,
-                attributes: { 
-                    given_name: fields.firstName,
-                    family_name: fields.lastName,
-                    email: fields.email,
-                    phone_number: "",
-                    updated_at: "",
-                    zoneinfo: "",
-                    locale: "",
-                    address: ""
-                }
-            });
-
-            setNewUser(newUser);
+        try { 
             setIsLoading(false); 
 
         } catch (e) {
@@ -89,10 +69,11 @@ export default function Register() {
         setIsLoading(true);
 
         try {
-
-            await Auth.confirmSignUp(fields.email, fields.confirmationCode);
-            await Auth.signIn(fields.email, fields.password);
              
+            // Reload the application
+            window.location.reload();
+             
+            // Setting userHasAuthenticated to "True" in userAppContext() 
             userHasAuthenticated(true);
 
         } catch (e) {
@@ -167,7 +148,7 @@ function RenderForm(props) {
 
                 { /* Header - Start */}
                 <header className="col-md-9 text-center border-bottom mb-3 mx-auto">
-                    <h1>Larissa</h1>
+                    <h1>Mabeti</h1>
                     <p>Already a member? <Link to="/login">Login here!</Link> </p>
                 </header>
                 { /* Header - End */}
@@ -276,7 +257,7 @@ function RenderForm(props) {
                     { /* Footer - Start */}
                     <footer className="p-2  w-100 border-top">
                         <p className="border-bottom pb-3">
-                            <mdall>By registering, you agree to Larissa's <a href="#">Terms of Service</a> and <a href="#">Privacy Notice</a>.</mdall>
+                            <mdall>By registering, you agree to Mabeti's <a href="#">Terms of Service</a> and <a href="#">Privacy Notice</a>.</mdall>
                         </p>
                         <Link to="/reset"> Forgot password? </Link>
                         <span> | </span>
@@ -314,7 +295,7 @@ function RenderConfirmationForm(props) {
 
                 { /* Header - Start */}
                 <header className="col-md-10 text-center border-bottom mb-3 mx-auto">
-                    <h1>Larissa</h1> 
+                    <h1>Mabeti</h1> 
                     <p>Please, check your email for a confirmation code! </p>
                 </header>
                 { /* Header - End */}
@@ -361,7 +342,7 @@ function RenderConfirmationForm(props) {
                     { /* Lower Section - Start */}
                     <section className="p-2 border-top">
                         <p className="border-bottom pb-3">
-                            <small>By using this application, you agree to Larissa's <a href="#">Terms of Service</a> and <a href="#">Privacy Notice</a>. </small>
+                            <small>By using this application, you agree to Mabeti's <a href="#">Terms of Service</a> and <a href="#">Privacy Notice</a>. </small>
                         </p>
 
                         <a href="/login"> Login </a>

@@ -1,3 +1,4 @@
+/* Badge Card */
 #Dashboard .card .overlay-bottom{
     font-size:1.5rem;
 }
@@ -10,7 +11,16 @@
 #Dashboard .card .card-img-overlay {
     background-color: #00000014;
 }
+
+/* Badge SectionA */
 #Dashboard #SectionA a:hover {
     box-shadow: 0 0 0px 6px #07284e;
     display: block;
+}
+
+/* Badge Style */
+#Dashboard .badge {
+    background-color: #f5d997;
+    color: black;
+    border: 1px solid black;
 }

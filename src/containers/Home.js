@@ -1,19 +1,17 @@
 // This file is exported to ---> src/Routes.js
 // React required
-import React, { useState, useEffect } from "react";
-// Amplify required
-import { S3Image } from 'aws-amplify-react';
-import { API } from "aws-amplify";
+import React, { useState, useEffect } from "react"; 
 // Getting - user status (user login - true or false) - from useAppContext
 import { useAppContext } from "../libs/contextLib"; 
 // Dummy Images 
-import img1 from "../img/imgmain.jpg"
-import img2 from "../img/imgcc.jpg"
-import img3 from "../img/imgbb.jpg"
+import img1 from "../img/imgmain.jpg";
+import img2 from "../img/imgmain8.JPG";
+import img8 from "../img/imgmain4.JPG";
+import img10 from "../img/dufler.png"; 
 // CSS
-import "../css/Home.css"
+import "../css/Home.css";
 // Dummy data
-import { data as dummyPosts} from "../DummyData/data"
+import { data as dummyPosts } from "../DummyData/data";
 // -------------- Application Begins Bellow ------------ //
 
 // Main Application
@@ -49,12 +47,9 @@ export default function Home() {
             setIsLoading(true);
 
             try {
-
-                const posts = await loadPosts(); 
-
-                if (!unmounted) {
-                    // Saving retreived data into posts variable
-                    setPosts(posts); 
+                 
+                if (!unmounted) { 
+                    
                 }
                 setIsLoading(false);
 
@@ -74,20 +69,15 @@ export default function Home() {
 
     }, [isAuthenticated]); 
 
-    // Function getting data from database
-    function loadPosts() {
-        return API.get("posts", "/publicposts");
-    } 
-
     // Return UI
     return (
         <main id="Home" className="border-bottom"> 
 
             <Header handleSearch={handleSearch} setSearch={setSearch} search={search} />
 
-            <SectionA posts={posts} isLoading={isLoading} />
+            <SectionA />
 
-            <SectionB />
+            <SectionB posts={dummyPosts} isLoading={isLoading} />
 
             <SectionC/>
             
@@ -104,19 +94,37 @@ function Header(props) {
     // Return UI
     return (
 
-        <header  id="Header" className="container-fluid row m-0" style={{ backgroundImage: `url(${img1})` }} >
+        <header  id="Header" className="container-fluid row m-0 p-0">
 
-            <div className="col-sm-9 mx-auto align-self-center text-center text-white">
+            {/* Background Image - Start */}
+            <div className="col-sm-4 align-self-center text-center text-white 100vh mt-5" style={{ backgroundImage: `url(${img1})`, backgroundRepeat: "no-repeat", backgroundSize: "contain", backgroundPositionY: "center", backgroundPositionX: "center", height: "100vh" }}> 
 
-                <h1 className="text-white"> Let's find the best home for you </h1>
+            </div>
+            {/* Background Image - End */}
 
-                <p> Search our inventory on thousands of homes, a click away. </p>
+            {/* Div - Start */}
+            <div className="col-sm-4 align-self-center text-center py-5">
+
+                <h1> New Arrivals </h1>
+
+                <p>Get ready for winter time.</p>
+
+                <button type="button" class="btn rounded-0 mb-5">Men</button>
+                <button type="button" class="btn rounded-0 ml-3 mb-5">Women</button>
+                <button type="button" class="btn rounded-0 ml-3 mb-5">Kids</button>
+
 
                 { /* Search field block - Start */}
                 <Search handleSearch={handleSearch} setSearch={setSearch} search={search} />
                 { /* Search field block - End */}
 
             </div>
+            {/* Div - End */}
+
+            {/* Background Image - Start */}
+            <div className="col-sm-4 align-self-center text-center text-white" style={{ backgroundImage: `url(${img2})`, height: "calc(100vh - 100px)", backgroundRepeat: "no-repeat", backgroundSize: "contain", backgroundPositionX: "center"}}>
+            </div>
+            {/* Background Image - End */}
 
         </header>
         );
@@ -130,7 +138,7 @@ function Search(props) {
 
     // Return UI
     return (
-        <div className="display-large nav-item pr-5">
+        <div className="display-large nav-item">
 
             { /* Form - Start */}
             <form onSubmit={handleSearch}>
@@ -151,8 +159,8 @@ function Search(props) {
                     { /* Button - Start */}
                     <div className="input-group-append">
 
-                        <button className="btn btn-danger" type="submit">
-                            Search <i className='fa fa-search' role="img" aria-label="search"></i>
+                        <button className="btn" type="submit">
+                           <i className='fa fa-search' role="img" aria-label="search"></i>
                         </button>
 
                     </div>
@@ -167,88 +175,108 @@ function Search(props) {
 }
 
 // Other sections
-function SectionA({ posts, isLoading }) {
+function SectionA() {
 
     // Return UI
     return (
-        <section id="SectionA" className="container-fluid row py-5 bg-white border-bottom m-0">
+        <section id="SectionA" className="container-fluid row py-5 bg-white m-0">
 
             {/* Heading - Start */}
-            <div className="col-sm-12 pb-5">
-                <h2>New Listings in Metro Atlanta, GA</h2>
-                <p><a href="#">View All New Listings</a></p>
+            <div className="col-sm-4 align-self-center">
+                <h2><small>INTRODUCING</small></h2>
+                <h3 style={{ fontSize:"3.2rem" }}>FIERCE NIGHT</h3>
+                <h2><small>FIBERABBIT SIGNATURE 30-INCH WORK DUFFLE BAG</small></h2>
+                <button type="button" class="btn btn-outline-light rounded-0 mt-4">COMMING SOON</button>
+
             </div>
             {/* Heading - End */}
 
-            {/* Posts - Start */}
-            {!isLoading ? 
+            {/* Image - End */}
+            <div className="col-sm-6 align-self-center py-2">
+                <img className="rounded shadow-lg" src={img10} />
+            </div>
+            {/* Image - End */}
 
+        </section>
+        );
+}
+
+function SectionB({ posts, isLoading }) {
+    return (
+        <section id="SectionB" className="container-fluid row m-0 mb-3">
+            <header className="col-sm-12 my-5">
+                <h2> New Arrivals</h2>
+            </header>
+
+            {/* Posts - Start */}
+            {!isLoading ?
+
+                // Display after we have loaded our data
                 posts.map((post, i) => {
 
+
                     // Important variables
-                    const { image1 } = post.images;
-                    const { streetState, streetCity } = post.address;
-                    const { postId, userId, postStatus } = post;
-                    const convertDate = new Date(post.createdAt);
-                    const postedOn = convertDate.toDateString();
+                    const { imageA } = post.images;
+                    const { userId, postStatus, postTitle, postId } = post; 
                     const price = Number(post.postPrice).toLocaleString();
+
 
                     // Return UI
                     return (
-                        <div className="col-sm-6 col-md-4 col-lg-3 text-white p-2" key={i++}>
+                        <div className="col-sm-6 col-md-3  p-2" key={i++}>
 
-                            <a href={`/view/${postId}`} className="text-white link-card">
-                                <div className="card shadow-sm">
+                            <a href={ `/view/${postId}`}>
+                                <div className="card text-center shadow-sm h-100">
 
-                                    { /* Image */ }
-                                    <S3Image level="protected" identityId={userId} imgKey={image1} />
+                                    { /* Image - Start */}
+                                    <img src={imageA} />
+                                    { /* Image - End */}
 
-                                    { /* Overlay - Start */ }
+                                    { /* Overlay - Start */}
                                     <div className="card-img-overlay">
-
-                                        { /* Top */ }
                                         <div className="overlay-top">
-                                            <span className="badge badge-primary rounded">
-                                                {postStatus} - {postedOn}
-                                            </span>
+                                            <span className="badge rounded float-left text-capitalize">{postStatus}</span>
                                         </div>
-
-                                        { /* Bottom */ }
-                                        <div className="overlay-bottom">
-                                            <p className="m-0"><small>{streetCity}, {streetState}</small></p>
-                                            <p><b>${price}</b></p>
-                                        </div>
-
                                     </div>
                                     { /* Overlay - End */}
 
+                                    { /* Body card - Start */}
+                                    <div className="card-body">
+                                        <p className="m-0" >
+                                            <i className="fa fa-star-o" role="img" aria-label="star"></i>
+                                            <i className="fa fa-star-o" role="img" aria-label="star"></i>
+                                            <i className="fa fa-star-o" role="img" aria-label="star"></i>
+                                            <i className="fa fa-star-o" role="img" aria-label="star"></i>
+                                            <i className="fa fa-star-half-full" role="img" aria-label="star"></i>
+                                        </p>
+                                        <p className="m-0" style={{ fontSize: "1.3rem" }}><small>{postTitle}</small></p>
+                                        <p>
+                                            <b className="text-danger"> ${ price } </b>
+                                            <del className="text-secondary"> ${ price } </del>
+                                        </p>
+                                    </div>
+                                    { /* Body card - End */}
+
                                 </div>
                             </a>
-
                         </div>
                     );
                 })
-                    :
+                :
+                // Display while Loading data
                 "Loading"
             }
             {/* Posts - End */}
 
-            {/* Heading - Start */}
-            <div className="col-sm-12 py-5">
-                <h2>Pending Listings in Metro Atlanta, GA</h2>
-                <p><a href="#">View All New Listings</a></p>
-            </div>
-            {/* Heading - End */}
-
             {/* Dummy Posts - Start */}
             {
-                dummyPosts.map((post, i) => {
+                dummyPosts.slice(0,4).map((post, i) => {
 
 
                     // Important variables
                     const { imageA } = post.images;
                     const { postState } = post.address;
-                    const { postId, userId, postStatus } = post;
+                    const { postId, userId, postStatus, postTitle } = post;
                     const convertDate = new Date(post.createdAt);
                     const postedOn = convertDate.toDateString();
                     const price = Number(post.postPrice).toLocaleString();
@@ -256,34 +284,30 @@ function SectionA({ posts, isLoading }) {
 
                     // Return UI
                     return (
-                        <div className="col-sm-6 col-md-4 col-lg-3 text-white p-2" key={i++}>
+                        <div className="col-sm-6 col-md-4 col-lg-3 p-2" key={i++}>
 
-                            <a href={`/view/${postId}`} className="text-white link-card">
-                                <div className="card border-0 shadow-sm">
-
-                                    { /* Image */}
-                                    <img src={imageA} />
-
-
-                                    { /* Overlay - Start */}
+                            <a href={ `/view/${postId}`}>
+                                <div className="card text-center shadow-sm h-100">
+                                    <img className="card-img-top p-3" src={imageA} alt={`Home ${imageA}`} />
                                     <div className="card-img-overlay">
-
-                                        { /* Top */}
                                         <div className="overlay-top">
-                                            <span className="badge badge-primary rounded">
-                                                {postStatus} - {postedOn}
-                                            </span>
+                                            <span className="badge badge-info rounded float-left"> -25%</span>
                                         </div>
-
-                                        { /* Bottom */}
-                                        <div className="overlay-bottom">
-                                            <p className="m-0"><small>{postState}</small></p>
-                                            <p><b>${price}</b></p>
-                                        </div>
-
                                     </div>
-                                    { /* Overlay - End */}
-
+                                    <div className="card-body">
+                                        <p className="m-0" >
+                                            <i className="fa fa-star-o" role="img" aria-label="star"></i>
+                                            <i className="fa fa-star-o" role="img" aria-label="star"></i>
+                                            <i className="fa fa-star-o" role="img" aria-label="star"></i>
+                                            <i className="fa fa-star-o" role="img" aria-label="star"></i>
+                                            <i className="fa fa-star-half-full" role="img" aria-label="star"></i>
+                                        </p>
+                                        <p className="m-0" style={{ fontSize: "1.3rem" }}><small>{postTitle}</small></p>
+                                        <p>
+                                            <b className="text-danger"> $3,550 </b>
+                                            <del className="text-secondary"> $4,988 </del>
+                                        </p>
+                                    </div>
                                 </div>
                             </a>
 
@@ -292,98 +316,29 @@ function SectionA({ posts, isLoading }) {
                 })
             }
             {/* Dummy Posts - End */}
-             
-            <div className="col-sm-12 pt-5">
-                <h2>What's happening in Metro Atlanta, GA</h2>
-            </div> 
-            <div className="col-sm-3 p-2">
-                <h3 className="m-0">1,627</h3>
-                <p>Homes for sale</p>
-            </div> 
-            <div className="col-sm-3 p-2">
-                <h3 className="m-0">50</h3>
-                <p>Open Homes</p>
-            </div> 
-            <div className="col-sm-3 p-2">
-                <h3 className="m-0">3,709</h3>
-                <p>Recently Sold</p>
-            </div> 
-            <div className="col-sm-3 p-2">
-                <h3 className="m-0">159</h3>
-                <p>Price reduced</p>
-            </div>
-
         </section>
-        );
-}
-
-function SectionB() {
-    return (
-        <header id="SectionB" className="container-fluid row m-0 vh-100" style={{ backgroundImage: `url(${img3})` }}>
-            <div className="col-sm-12 col-md-9 col-lg-6 mx-auto align-self-center text-center text-white">
-                <h2 className="border-bottom pb-3">Trends</h2>
-                <h3 className="pb-3">Looking for the cheapest place to rent? Here are some properites for you. </h3> 
-                <button type="button" className="btn btn-outline-light">Read More</button>
-            </div>
-        </header>
     );
 }
 
 function SectionC() {
     return (
-        <section className="container-fluid row mx-auto py-5">
-            <div className="col-sm-6 col-md-4 col-lg-3 p-2">
-                <div className="card shadow-sm">
-                    <img className="card-img-top" src={img2} alt={`Home ${img1}`} />
-                    <div className="card-img-overlay text-white">
-                        <div className="overlay-top">
-                            <span className="badge badge-primary rounded">HOME IMPORVEMENT</span>
-                        </div>
-                    </div>
-                    <div className="card-body"> 
-                        <p className="card-text">The Brothers Innovations</p> 
-                    </div>
-                </div>
+        <section id="SectionC" className="container-fluid border-top border-bottom row bg-white m-0" >
+
+            {/* Background Image - Start */}
+            <div className="col-sm-5 100vh" style={{ backgroundImage: `url(${img8})`, height: "calc(100vh)", backgroundRepeat: "no-repeat", backgroundSize: "contain", backgroundPositionY: "center" , backgroundPositionX: "center" }}>
             </div>
-            <div className="col-sm-6 col-md-4 col-lg-3 p-2">
-                <div className="card shadow-sm">
-                    <img className="card-img-top" src={img2} alt={`Home ${img1}`} />
-                    <div className="card-img-overlay text-white">
-                        <div className="overlay-top">
-                            <span className="badge badge-primary rounded">BUY</span>
-                        </div>
-                    </div>
-                    <div className="card-body"> 
-                        <p className="card-text">The Brothers Innovations</p> 
-                    </div>
-                </div>
+            {/* Background Image - End */}
+
+            {/* Description - Start */}
+            <div className="col-sm-5 align-self-center my-5">
+                <h2><small>INTRODUCING</small></h2>
+                <h3 style={{ fontSize: "3.2rem" }}>COAT SUMMET</h3>
+                <h2><small>AN INVIGORATING NEW COAT WITH NOTES OF SENSUAL COTTON, SILK & BAMBOO</small></h2>
+                <button type="button" class="btn btn-outline-dark rounded-0 mt-4">COMMING SOON</button>
+
             </div>
-            <div className="col-sm-6 col-md-4 col-lg-3 p-2">
-                <div className="card shadow-sm">
-                    <img className="card-img-top" src={img2} alt={`Home ${img1}`} />
-                    <div className="card-img-overlay text-white">
-                        <div className="overlay-top">
-                            <span className="badge badge-primary rounded">HOME IMPORVEMENT</span>
-                        </div>
-                    </div>
-                    <div className="card-body"> 
-                        <p className="card-text">The Brothers Innovations</p> 
-                    </div>
-                </div>
-            </div>
-            <div className="col-sm-6 col-md-4 col-lg-3 p-2">
-                <div className="card shadow-sm">
-                    <img className="card-img-top" src={img2} alt={`Home ${img1}`} />
-                    <div className="card-img-overlay text-white">
-                        <div className="overlay-top">
-                            <span className="badge badge-primary rounded">SPONSORED CONTENT</span>
-                        </div>
-                    </div>
-                    <div className="card-body"> 
-                        <p className="card-text">The Brothers Innovations</p> 
-                    </div>
-                </div>
-            </div>
+            {/* Description - End */}
+
         </section>
         );
 }

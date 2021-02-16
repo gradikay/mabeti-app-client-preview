@@ -1,11 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\src",
-    "\\src\\components",
-    "\\src\\containers",
-    "\\src\\css"
+    "\\public",
+    "\\src"
   ],
-  "SelectedNode": "\\src\\components\\Navigation.js",
+  "SelectedNode": "\\src\\DummyData",
   "PreviewInSolutionExplorer": false
 }

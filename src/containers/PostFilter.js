@@ -1,14 +1,11 @@
 // This file is exported to ---> src/Routes.js
 // React required
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-// Amplify required
-import { S3Image } from 'aws-amplify-react';
-import { API } from "aws-amplify";
+import { useParams, Link } from "react-router-dom"; 
 // CSS
-import "../css/PostFilter.css"
+import "../css/PostFilter.css";
 // Dummy data
-import { data as dummyPosts } from "../DummyData/data"
+import { data as dummyPosts } from "../DummyData/data"; 
 // -------------- Application Begins Bellow ------------ //
 
 // Main Application
@@ -45,20 +42,10 @@ export default function PostFilter() {
 
             setIsLoading(true);
 
-            // Loading post from Dynamodb 
-            function loadPosts() {
-                // Note: "posts" is the [API] -> [endpoint] -> [name] in src -> index.js
-                return API.get("posts", `/searching/all/${name}`);
-            } 
-
             try {
-
-                // Important variable
-                const posts = await loadPosts(); 
                  
                 if (!unmounted) {
-                    // Saving retreived data into posts variable
-                    setPosts(posts); 
+ 
                 }
                 setIsLoading(false);
 
@@ -83,8 +70,11 @@ export default function PostFilter() {
     // Return UI
     return (
         <main id="PostFilter"> 
+
             <Header handleSearch={handleSearch} setSearch={setSearch} search={search} />
-            <SectionA posts={posts} name={name} isLoading={isLoading} />          
+
+            <SectionA posts={dummyPosts} name={name} isLoading={isLoading} />  
+            
         </main>
         );
 }
@@ -97,78 +87,30 @@ function Header(props) {
 
     // Return UI
     return (
-        <header id="Header" className="container-fluid row m-0 bg-dark">
-            <nav className="navbar navbar-expand-md">
+        <header id="Header" className="container-fluid row m-0 my-3 pb-3 text-right border-bottom ">
+            <div className="dropdown">
 
                 { /* Button - Start */ }
-                <button className="navbar-toggler text-white" type="button" data-toggle="collapse" data-target="#collapsibleLowerNavbar">
-                    Filter <span className="fa fa-bars"></span>
+                <button type="button" className="btn" data-toggle="dropdown">
+                    Filter <i className="fa fa-sliders"></i>
                 </button>
-                { /* Button - End */ }                 
+                { /* Button - End */}
 
-                { /* Links & Search - Start */ }
-                <div className="collapse navbar-collapse" id="collapsibleLowerNavbar">
-
-                    { /* Previous Page - Start */ }
-                    <ul className="navbar-nav">
-                        <li className="nav-item">
-                            <a className="nav-link text-white border-right mr-3 pr-3" href="/"> <i className="fa fa-reply"></i> Back Home </a>
-                        </li>
-                    </ul>
-                    { /* Previous Page - Start */ }
-
-                    { /* Search - Start */ }
-                    <Search handleSearch={handleSearch} setSearch={setSearch} search={search} />
-                    { /* Search - End */ }
-
-                    { /* Dropdowns - Start */ }
-                    <ul className="navbar-nav">
-
-                        { /* Price Dropdown */ }
-                        <li className="nav-item dropdown mr-3">
-                            <a className="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                                Price
-                            </a>
-                            <div className="dropdown-menu">
-                                <a className="dropdown-item" href="/filter/100000">+ $100K</a> 
-                                <a className="dropdown-item" href="/filter/300000">+ $300K</a> 
-                                <a className="dropdown-item" href="/filter/500000">+ $500K</a> 
-                                <a className="dropdown-item" href="/filter/700000">+ $700K</a> 
-                            </div>
-                        </li> 
-
-                        { /* Property Type Dropdown */ }
-                        <li className="nav-item dropdown mr-3">
-                            <a className="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                                Property Type
-                            </a>
-                            <ul className="dropdown-menu">
-                                <a className="dropdown-item" href="/filter/all">+ Any</a>
-                                <a className="dropdown-item" href="/filter/single">+ Single Family Home</a>
-                                <a className="dropdown-item" href="/filter/townhome">+ Townhome</a>
-                                <a className="dropdown-item" href="/filter/condo">+ Condo</a>
-                            </ul>
-                        </li>
-
-                        { /* Listing Status Dropdown */ }
-                        <li className="nav-item dropdown">
-                            <a className="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                                Listing Status
-                            </a>
-                            <div className="dropdown-menu">
-                                <a className="dropdown-item" href="/filter/pending">+ Pending</a>
-                                <a className="dropdown-item" href="/filter/sold">+ Sold</a>
-                                <a className="dropdown-item" href="/filter/avalable">+ Available</a>
-                                <a className="dropdown-item" href="/filter/foreclosure">+ Foreclosures</a>
-                            </div>
-                        </li> 
-                    </ul>
-                    { /* Dropdowns - End */}
-
+                { /* Menu - Start */ }
+                <div className="dropdown-menu">
+                    <Link className="dropdown-item" to="/filter/men">+ Men</Link>
+                    <Link className="dropdown-item" to="/filter/women">+ Women</Link>
+                    <Link className="dropdown-item" to="/filter/kids">+ Kids</Link>
+                    <Link className="dropdown-item" to="/filter/new"><i className="fa fa-bolt"></i> new</Link>
+                    <Link className="dropdown-item" to="/filter/sale"><i className="fa fa-tags"></i> sale</Link>
                 </div>
-                { /* Links & Search - End */ }
+                { /* Menu - End */}
 
-            </nav>
+            </div>
+            { /* Search - Start */ }
+            <Search handleSearch={handleSearch} setSearch={setSearch} search={search} />
+            { /* Search - End */ }
+        
         </header>
         );
 }
@@ -181,7 +123,7 @@ function Search(props) {
 
     // Return UI
     return (
-        <div className="nav-item pr-3 border-right mr-3">
+        <div className="nav-item pl-md-3 mt-3 mt-sm-0">
 
             { /* Form - Start */}
             <form onSubmit={handleSearch}>
@@ -201,7 +143,7 @@ function Search(props) {
 
                     { /* Button - Start */}
                     <div className="input-group-append">
-                        <button className="btn btn-light border" type="submit">
+                        <button className="btn" type="submit">
                             <i className='fa fa-search' role="img" aria-label="search"></i>
                         </button>
                     </div>
@@ -223,7 +165,7 @@ function SectionA(props) {
 
     // Return UI
     return (
-        <section id="SectionA" className="container-fluid row py-5 bg-white border-bottom m-0">
+        <section id="SectionA" className="container-fluid row pb-5 bg-white border-bottom m-0">
 
             <div className="col-sm-12">
                 <h2>Searching for <i className="text-capitalize">{name}</i></h2>
@@ -232,52 +174,61 @@ function SectionA(props) {
              
             {!isLoading ?
 
+                // Display after we have loaded our data
                 posts.map((post, i) => {
 
+
                     // Important variables
-                    const { image1 } = post.images;
-                    const { streetState, streetCity } = post.address;
-                    const { postId, userId, postStatus } = post;
+                    const { imageA } = post.images;
+                    const { userId, postStatus, postTitle, postId } = post;
                     const convertDate = new Date(post.createdAt);
                     const postedOn = convertDate.toDateString();
                     const price = Number(post.postPrice).toLocaleString();
 
+
                     // Return UI
                     return (
-                        <div className="col-md-6 col-lg-4 text-white p-2" key={i++}>
+                        <div className="col-sm-6 col-md-3  p-2" key={i++}>
 
-                            <a href={`/view/${postId}`} className="text-white link-card">
-                                <div className="card shadow-sm">
+                            <a href={`/view/${postId}`}>
+                                <div className="card text-center shadow-sm h-100">
 
-                                    { /* Image */}
-                                    <S3Image level="protected" identityId={userId} imgKey={image1} />
+                                    { /* Image - Start */}
+                                    <img src={imageA} />
+                                    { /* Image - End */}
 
                                     { /* Overlay - Start */}
                                     <div className="card-img-overlay">
-
-                                        { /* Top */}
                                         <div className="overlay-top">
-                                            <span className="badge badge-primary rounded">
-                                                {postStatus} - {postedOn}
-                                            </span>
+                                            <span className="badge badge-info rounded float-left text-capitalize">{postStatus}</span>
                                         </div>
-
-                                        { /* Bottom */}
-                                        <div className="overlay-bottom">
-                                            <p className="m-0"><small>{streetCity}, {streetState}</small></p>
-                                            <p><b>${price}</b></p>
-                                        </div>
-
                                     </div>
                                     { /* Overlay - End */}
 
+                                    { /* Body card - Start */}
+                                    <div className="card-body">
+                                        <p className="m-0" >
+                                            <i className="fa fa-star-o" role="img" aria-label="star"></i>
+                                            <i className="fa fa-star-o" role="img" aria-label="star"></i>
+                                            <i className="fa fa-star-o" role="img" aria-label="star"></i>
+                                            <i className="fa fa-star-o" role="img" aria-label="star"></i>
+                                            <i className="fa fa-star-half-full" role="img" aria-label="star"></i>
+                                        </p>
+                                        <p className="m-0" style={{ fontSize: "1.3rem" }}><small>{postTitle}</small></p>
+                                        <p>
+                                            <b className="text-danger"> ${ price } </b>
+                                            <del className="text-secondary"> ${ price } </del>
+                                        </p>
+                                    </div>
+                                    { /* Body card - End */}
+
                                 </div>
                             </a>
-
                         </div>
                     );
                 })
                 :
+                // Display while Loading data
                 "Loading"
             }
              
@@ -287,71 +238,55 @@ function SectionA(props) {
 
                     // Important variables
                     const { imageA } = post.images;
-                    const { postState, postCity } = post.address;
-                    const { postId, postStatus } = post;
-                    const convertDate = new Date(post.createdAt);
-                    const postedOn = convertDate.toDateString();
+                    const { postId, postTitle } = post; 
                     const price = Number(post.postPrice).toLocaleString();
 
 
                     // Return UI
                     return (
-                        <div className="col-md-6 col-lg-4 text-white p-2" key={i++}>
+                        < div className="col-md-6 col-lg-3 text-white p-2" key={i++}>
 
-                            <a href={`/view/${postId}`} className="text-white">
-                                <div className="card shadow-sm">
+                            <a href={`/view/${postId}`}>
 
-                                    { /* Image */}
-                                    <img src={imageA} />
+                                { /* Card - Start */ }
+                                <div className="card text-center shadow-sm h-100">
 
-
-                                    { /* Overlay - Start */}
+                                    { /* Image */ }
+                                    <img className="card-img-top p-3" src={imageA} alt={`Home ${imageA}`} />
+                                    { /* Overlay - Start */ }
                                     <div className="card-img-overlay">
-
-                                        { /* Top */}
                                         <div className="overlay-top">
-                                            <span className="badge badge-primary rounded">
-                                                {postStatus} - {postedOn}
-                                            </span>
+                                            <span className="badge badge-info rounded float-left"> -25%</span>
                                         </div>
-
-                                        { /* Bottom */}
-                                        <div className="overlay-bottom">
-                                            <p className="m-0"><small>{postCity}, {postState}</small></p>
-                                            <p><b>${price}</b></p>
-                                        </div>
-
                                     </div>
                                     { /* Overlay - End */}
 
+                                    { /* Body - Start */}
+                                    <div className="card-body">
+                                        <p className="m-0" >
+                                            <i className="fa fa-star-o" role="img" aria-label="star"></i>
+                                            <i className="fa fa-star-o" role="img" aria-label="star"></i>
+                                            <i className="fa fa-star-o" role="img" aria-label="star"></i>
+                                            <i className="fa fa-star-o" role="img" aria-label="star"></i>
+                                            <i className="fa fa-star-half-full" role="img" aria-label="star"></i>
+                                        </p>
+                                        <p className="m-0" style={{ fontSize: "1.3rem" }}><small>{postTitle}</small></p>
+                                        <p>
+                                            <b className="text-danger"> ${ price } </b>
+                                            <del className="text-secondary"> ${ price } </del>
+                                        </p>
+                                    </div>
+                                    { /* Body - End */}
+
                                 </div>
+                                { /* Card - End */}
+
                             </a>
 
                         </div>
                     );
                 })
             }
-
-
-            <div className="col-sm-12 pt-5">
-                <h2>What's happening in Metro Atlanta, GA</h2>
-            </div> 
-            <div className="col-sm-3 p-2">
-                <h3>1,627</h3>
-                <p>Homes for sale</p>
-            </div> 
-            <div className="col-sm-3 p-2">
-                <h3>50</h3>
-                <p>Open Homes</p>
-            </div> 
-            <div className="col-sm-3 p-2">
-                <h3>3,709</h3>
-                <p>Recently Sold</p>
-            </div> 
-            <div className="col-sm-3 p-2">
-                <h3>159</h3>
-                <p>Price reduced</p>
-            </div>
 
         </section>
         );

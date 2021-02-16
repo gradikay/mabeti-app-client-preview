@@ -2,9 +2,7 @@
 // React required
 import React, { useState } from "react";
 // Components
-import LoaderButton from "../components/LoaderButton";
-// Amplify required
-import { Auth } from "aws-amplify";
+import LoaderButton from "../components/LoaderButton"; 
 // Libs
 import { useFields } from "../libs/hooksLib";
 // Getting - user status (user login - true or false) - from useAppContext
@@ -47,9 +45,6 @@ export default function ResetPassword() {
 
         try {
 
-            // Amplify's Auth.forgotPassword : Check AWS cognito for submitted email 
-            const sentRequest = await Auth.forgotPassword(fields.email)
-
             setIsLoading(false);
             setSentRequest(sentRequest);
 
@@ -69,11 +64,7 @@ export default function ResetPassword() {
 
         try {
 
-            // Getting user new password and email
-            await Auth.forgotPasswordSubmit(fields.email, fields.confirmationCode, fields.password)
-            // Then Sign in the user
-            await Auth.signIn(fields.email, fields.password);
-            
+            // Setting userHasAuthenticated to "True" in userAppContext() 
             userHasAuthenticated(true); 
 
         } catch (e) {
@@ -130,14 +121,14 @@ function RenderEmailField(props) {
 
     } = props;
 
-
+    // Return UI
     return (
         <main className="Signup container-fluid bg-white py-3 vh-100 border-bottom">
             <div className="row">
 
                 { /* Header - Start */}
                 <header className="col-sm-9 text-center border-bottom mb-3 mx-auto">
-                    <h1>Larissa</h1>
+                    <h1>Mabeti</h1>
                     <p>Please, Verify your email bellow!</p>
                 </header>
                 { /* Header - End */}
@@ -182,7 +173,7 @@ function RenderEmailField(props) {
                     { /* Lower Section - Start */}
                     <section className="p-2 border-top">
                         <p className="border-bottom pb-3">
-                            <small>By using this application, you agree to Larissa's <a href="#">Terms of Service</a> and <a href="#">Privacy Notice</a>. </small>
+                            <small>By using this application, you agree to Mabeti's <a href="#">Terms of Service</a> and <a href="#">Privacy Notice</a>. </small>
                         </p>
 
                         <a href="/login"> Login </a>
@@ -216,7 +207,7 @@ function RenderResetPasswordField(props) {
 
     } = props;
 
-
+    // Return UI
     return (
         <>
             <main className="Signup container-fluid bg-white pt-3 pb-5 border-bottom">
@@ -224,7 +215,7 @@ function RenderResetPasswordField(props) {
 
                     { /* Header - Start */}
                     <header className="col-sm-9 text-center border-bottom mb-3 mx-auto">
-                        <h1>Larissa</h1> 
+                        <h1>Mabeti</h1> 
                         <p>Please, Check your email for a confirmation code!</p>
                     </header>
                     { /* Header - End */}

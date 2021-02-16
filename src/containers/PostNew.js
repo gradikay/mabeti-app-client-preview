@@ -1,16 +1,10 @@
 // This file is exported to ---> src/Routes.js
 // React required
 import React, { useRef, useState } from "react";
-import { Link } from "react-router-dom";
-// uuid for Unique Ids 
-import uuid from "react-uuid";
-// Amplify required 
-import { API } from "aws-amplify";
+import { Link } from "react-router-dom"; 
 import config from "../config";
 // Components 
-import LoaderButton from "../components/LoaderButton";
-// Libs
-import { s3Upload } from "../libs/awsLib"; 
+import LoaderButton from "../components/LoaderButton"; 
 import { useFields } from "../libs/hooksLib";
 import { useAppContext } from "../libs/contextLib";
 // -------------- Application Begins Bellow ------------ //
@@ -22,25 +16,19 @@ export default function PostNew() {
     const { userFirstName, userLastName } = useAppContext();
     const [fields, handleFieldChange] = useFields({
         // Post Description
-        postStatus: "status",
-        postType: "",
-        postStyle: "",
-        postPrice: 1000,
-        postAcreage: 1,
-        numberOfBaths: 1,
-        numberOfBedrooms: 1,
+        postStatus: "",
+        postTitle: "",
+        postType: "", 
+        postColor: "", 
+        postSize: "", 
+        postPrice: 1000, 
+        postQuantity: 1000, 
         postDescription: "",
+        postGender: "",
         // Seller Information
         sellerFirstName: "",
         sellerLastName: "",
-        sellerPhoneNumber: 9090008888,
-        // Post Location
-        streetAddress: "",
-        streetAddressLine2: "",
-        streetCity: "",
-        streetState: "",
-        streetCountry: "",
-        streetZipcode: "",
+        sellerPhoneNumber: 9090008888, 
     });
 
     // display the image
@@ -142,69 +130,14 @@ export default function PostNew() {
         setIsLoading(true);
 
         try {
-            const image1 = file1.current
-                ? await s3Upload(file1.current)
-                : null;
-            const image2 = file2.current
-                ? await s3Upload(file2.current)
-                : null;
-            const image3 = file3.current
-                ? await s3Upload(file3.current)
-                : null;
-            const image4 = file4.current
-                ? await s3Upload(file4.current)
-                : null;
-            const image5 = file5.current
-                ? await s3Upload(file5.current)
-                : null;
 
-            // Note: making your data lowercase will help with your perform search 
-            // on your dynamodb table -- use .toLowerCase()
-            // Dynamodb is case sensitive. Example: a user searching for "Home" in the search bar
-            // will only get results for "Home" not "HOME", "home", or any other combination
-            await createPost({
-                // Post Description
-                postId: uuid(),
-                postStatus: fields.postStatus.toLowerCase(),
-                postType: fields.postType.toLowerCase(),
-                postStyle: fields.postStyle.toLowerCase(),
-                postPrice: Number(fields.postPrice),
-                postAcreage: Number(fields.postAcreage),
-                numberOfBaths: fields.numberOfBaths,
-                numberOfBedrooms: fields.numberOfBedrooms,
-                postDescription: fields.postDescription,
-                // Seller Informations 
-                sellerLastName: userLastName.toLowerCase(),
-                sellerFirstName: userFirstName.toLowerCase(),
-                sellerPhoneNumber: fields.sellerPhoneNumber,
-                // Post Location
-                streetCity: fields.streetCity.toLowerCase(),
-                streetState: fields.streetState.toLowerCase(),
-                streetCountry: fields.streetCountry.toLowerCase(),
-                streetZipcode: fields.streetZipcode, 
-                streetAddress: fields.streetAddress.toLowerCase(),
-                streetAddressLine2: fields.streetAddressLine2.toLowerCase(),
-                // Images
-                image1,
-                image2,
-                image3,
-                image4,
-                image5
-            });
-             
+            // Redirect us to dashboard after update is complete
             window.location.href = `/dashboard`;
 
         } catch (e) {
             alert(e);
             setIsLoading(false);
         }
-    }
-
-    // Creating New Post
-    function createPost(post) {
-        return API.post("posts", "/posts", {
-            body: post
-        });
     }
 
     // Returing UI
@@ -215,21 +148,19 @@ export default function PostNew() {
             <Header />
             { /* Header - block - End */ }
 
-            { /* Images - block & props - Start */ }
-            <div className="container row mx-auto p-0">
-                <Images
-                    image1={image1}
-                    image2={image2}
-                    image3={image3}
-                    image4={image4}
-                    image5={image5}
-                    handleImage1={handleImage1}
-                    handleImage2={handleImage2}
-                    handleImage3={handleImage3}
-                    handleImage4={handleImage4}
-                    handleImage5={handleImage5}
-                />
-            </div>
+            { /* Images - block & props - Start */ } 
+            <Images
+                image1={image1}
+                image2={image2}
+                image3={image3}
+                image4={image4}
+                image5={image5}
+                handleImage1={handleImage1}
+                handleImage2={handleImage2}
+                handleImage3={handleImage3}
+                handleImage4={handleImage4}
+                handleImage5={handleImage5}
+            /> 
             { /* Images - block & props - End */}
 
             { /* Post info & Post preview - block & props - Start */}
@@ -244,37 +175,29 @@ export default function PostNew() {
                     userFirstName={userFirstName}
                     handleFieldChange={handleFieldChange}
                     // Post Description
-                    postType={fields.postType}
-                    postStyle={fields.postStyle}
-                    postPrice={fields.postPrice}
                     postStatus={fields.postStatus}
-                    postAcreage={fields.postAcreage}
-                    numberOfBaths={fields.numberOfBaths}
-                    postDescription={fields.postDescription}
-                    numberOfBedrooms={fields.numberOfBedrooms}
+                    postTitle={fields.postTitle}
+                    postType={fields.postType}
+                    postColor={fields.postColor}
+                    postSize={fields.postSize}
+                    postPrice={fields.postPrice}
+                    postQuantity={fields.postQuantity} 
+                    postDescription={fields.postDescription} 
+                    postGender={fields.postGender} 
                     // Seller Information
                     sellerLastName={fields.sellerLastName}
                     sellerFirstName={fields.sellerFirstName}
-                    sellerPhoneNumber={fields.sellerPhoneNumber}
-                    // Post Location
-                    streetCity={fields.streetCity}
-                    streetState={fields.streetState}
-                    streetAddress={fields.streetAddress}
-                    streetCountry={fields.streetCountry}                   
-                    streetZipcode={fields.streetZipcode}                   
-                    streetAddressLine2={fields.streetAddressLine2}
+                    sellerPhoneNumber={fields.sellerPhoneNumber} 
                 />
                 { /* Post Info - RIGHT Section - End */}
                  
                 { /* Post Preview - LEFT Section - Start */}
                 <Preview
                     image1={image1}
+                    postTitle={fields.postTitle}
                     postType={fields.postType}
                     postPrice={fields.postPrice}
-                    postStatus={fields.postStatus}
-                    postAcreage={fields.postAcreage}
-                    numberOfBaths={fields.numberOfBaths}
-                    numberOfBedrooms={fields.numberOfBedrooms}
+                    postStatus={fields.postStatus} 
                 />
                 { /* Post Preview - LEFT Section - Start */}
 
@@ -291,8 +214,13 @@ function Header() {
     // Return UI
     return (
         <header className="container-fluid border-bottom py-3 mb-3 text-center bg-light">
+
+            {/* Heading */}
             <h1>Add New Post</h1>
+
+            {/* Button */}
             <Link to="/dashboard" className="btn btn-primary"><i className="fa fa-reply"></i> Dashboard</Link>
+
         </header>
     );
 }
@@ -378,6 +306,7 @@ function Images(props) {
 
             { /* Image3 - Start */}
             <div className="col-sm image-container mb-3">
+
                 { /* CARD */}
                 <div className="card">
 
@@ -477,23 +406,15 @@ function PostInfo(props) {
         userFirstName,
         handleFieldChange,
         // Post Description
-        postType,
-        postStyle,
-        postPrice,
         postStatus,
-        postAcreage,
-        numberOfBaths,
-        numberOfBedrooms,
+        postTitle,
+        postType,
+        postColor,
+        postSize,
+        postPrice,
+        postQuantity,
         postDescription,
-        // Seller Information
-        sellerPhoneNumber,
-        // Post Location
-        streetCity,
-        streetState,
-        streetAddress,
-        streetCountry,
-        streetZipcode,
-        streetAddressLine2,
+        postGender,
 
     } = props;
 
@@ -501,17 +422,17 @@ function PostInfo(props) {
     return ( 
         <div className="col-sm-7 mt-3">
 
-            { /* Organization, Property Address, & Property Information - Start */}
+            { /* Seller, Description, & Information - Start */}
             <div className="row">
 
-                { /* Organization & Property Address - Start */}
+                { /* Seller & Description - Start */}
                 <div className="col-sm-6 m-0">
 
-                    { /* Organization - Start */}
+                    { /* Seller - Start */}
                     <div className="border p-3 mb-3 shadow-sm ">
 
                         { /* Heading */ }
-                        <h3 className="mb-4">Organization</h3>
+                        <h3 className="mb-4">Seller</h3>
 
                         { /* Seller's Name - Start */}
                         <div className="form-group">
@@ -524,178 +445,122 @@ function PostInfo(props) {
                                 value={userFirstName + " " + userLastName}
                             />
                             { /* Helper */}
-                            <small className="text-secondary">Your organization's name can't be changed</small>
+                            <small className="text-secondary">Your name can't be changed</small>
                         </div>
                         { /* Seller's Name - End */}
 
-                        { /* Seller's Phone Number - Start */}
-                        <div className="form-group">
-                            <label htmlFor="sellerPhoneNumber" className="color-red">Phone Number</label>
-                            <input
-                                type="tel"
-                                form="form"
-                                required="required"
-                                id="sellerPhoneNumber"
-                                name="sellerPhoneNumber"
-                                className="form-control"
-                                value={sellerPhoneNumber}
-                                placeholder="phone number"
-                                onChange={handleFieldChange}
-                            />
-                            { /* Helper */}
-                            <small className="text-secondary">Enter your phone number</small>
-
-                        </div>
-                        { /* Seller's Phone Number - End */}
-
                     </div>
-                    { /* Organization - End */}
+                    { /* Seller - End */}
 
-                    { /* Property Address - Start */}
+                    { /* Description - Start */}
                     <div className="border p-3 mb-3 shadow-sm ">
 
                         { /* Heading */ }
-                        <h3 className="mb-4">Property Address</h3> 
+                        <h3 className="mb-4">Description</h3> 
 
-                        { /* Address - Start */}
+                        { /* Color - Start */}
                         <div className="form-group">
-                            <label htmlFor="streetAddress" className="color-red">Street Address</label>
+                            <label htmlFor="postColor" className="color-red">Color</label>
                             <input
                                 form="form"
                                 type="text"
-                                id="streetAddress"
+                                id="postColor"
                                 required="required"
-                                name="streetAddress"
-                                value={streetAddress}
-                                placeholder="address"
+                                name="postColor"
+                                value={postColor}
+                                placeholder="color"
                                 className="form-control"
                                 onChange={handleFieldChange}
                             />
                             { /* Helper */}
-                            <small className="text-secondary">Enter your street address</small>
+                            <small className="text-secondary">Type Item color</small>
 
                         </div>
-                        { /* Address - End */}
+                        { /* Color - End */}
 
-                        { /* Address Line 2 - Start */}
-                        <div className="form-group">
-                            <label htmlFor="streetAddressLine2" className="color-red">Street Address Line 2</label>
-                            <input
-                                form="form"
-                                type="text"
-                                required="required"
-                                id="streetAddressLine2"
-                                name="streetAddressLine2"
-                                className="form-control"
-                                value={streetAddressLine2}
-                                placeholder="address line 2"
-                                onChange={handleFieldChange}
-                            />
-                            { /* Helper */}
-                            <small className="text-secondary">Enter your street address line 2</small>
 
-                        </div>
-                        { /* Address Line 2 - End */}
-
-                        { /* City - Start */}
-                        <div className="form-group">
-                            <label htmlFor="streetCity" className="color-red">City</label>
-                            <select
-                                from="form"
-                                id="streetCity"
-                                name="streetCity"
-                                value={streetCity}
-                                required="required"
-                                className="form-control"
-                                onChange={handleFieldChange}
-                            >
-                                <option value="">Select City</option>
-                                <option value="atlanta">Atlanta</option>
-                                <option value="lithonia">Lithonia</option>
-                                <option value="kinshasa">Kinshasa</option>
-                            </select>
-                            <small className="text-secondary">Enter your organization's city</small>
-
-                        </div>
-                        { /* City - End */}
-
-                        { /* State - Start */}
+                        { /* Type - Start */}
                         <div className="form-group ">
-                            <label htmlFor="streetState" className="color-red">State</label>
+                            <label htmlFor="postType" className="color-red">Type</label>
                             <select
-                                form="from"
-                                id="streetState"
-                                name="streetState"
-                                value={streetState}
-                                required="required"
-                                className="form-control"
-                                onChange={handleFieldChange}
-                            >
-                                <option value="">Select State</option>
-                                <option value="georgia">GA</option>
-                                <option value="north carolina">NC</option>
-                                <option value="south carolina">SC</option>
-                            </select>
-                            <small className="text-secondary">Enter your organization's State</small>
-
-
-                        </div>
-                        { /* State - End */}
-
-                        { /* Number of bedrooms - Start */}
-                        <div className="form-group">
-                            <label htmlFor="streetZipcode" className="color-red">Zipcode / Postal</label>
-                            <input
                                 form="form"
-                                type="number"
-                                id="streetZipcode"
-                                name="streetZipcode"
-                                value={streetZipcode}
-                                className="form-control"
-                                onChange={handleFieldChange}
-                                placeholder="zipcode / postal"
-                            />
-                            <small className="text-secondary">Enter the number of bedrooms </small>
-                        </div>
-                        { /* Number of bedrooms - End */} 
-
-                        { /* Country - Start */}
-                        <div className="form-group ">
-                            <label htmlFor="streetCountry" className="color-red">Country</label>
-                            <select
-                                form="from"
-                                id="streetCountry"
+                                id="postType"
+                                name="postType"
+                                value={postType}
                                 required="required"
-                                name="streetCountry"
-                                value={streetCountry}
                                 className="form-control"
                                 onChange={handleFieldChange}
                             >
-                                <option value="">Select Country</option>
-                                <option value="usa">USA</option>
-                                <option value="congo">Congo</option>
-                                <option value="south africa">South Africa</option>
+                                <option value="">Select Item Type</option>
+                                <option value="shirt">Shirt</option>
+                                <option value="pant">Pant</option>
+                                <option value="hat">Hat</option>
+                                <option value="short">Short</option>
+                                <option value="shoe">Shoe</option>
                             </select>
-                            <small className="text-secondary">Enter your organization's Country</small>
-
+                            <small className="text-secondary">Choose Item type</small>
 
                         </div>
-                        { /* Country - End */}
+                        { /* Type - End */}
+
+                        { /* Size - Start */}
+                        <div className="form-group ">
+                            <label htmlFor="postSize" className="color-red">Size</label>
+                            <select
+                                form="form"
+                                id="postSize"
+                                name="postSize"
+                                value={postSize}
+                                required="required"
+                                className="form-control"
+                                onChange={handleFieldChange}
+                            >
+                                <option value="">Select Size</option>
+                                <option value="xs">XS</option>
+                                <option value="s">S</option>
+                                <option value="m">M</option>
+                                <option value="l">L</option>
+                                <option value="xl">XL</option>
+                            </select>
+                            <small className="text-secondary">Select Size</small>
+
+                        </div>
+                        { /* Size - End */}
 
                     </div>                   
-                    { /* Property Address - End */}
+                    { /* Description - End */}
 
                 </div>
-                { /* Organization & Property Address - End */}
+                { /* Seller & Description - End */}
 
-                { /* Property Information - Start */}
+                { /* Information - Start */}
                 <div className="col-sm-6 m-0 ">
 
-                    { /* Property Information - Start */}
+                    { /* Information - Start */}
                     <div className="border p-3 mb-3 bg-white shadow-sm">
 
                         { /* Heading */ }
-                        <h3 className="mb-4">Property Information</h3>
+                        <h3 className="mb-4">Information</h3>
+
+                        { /* Title - Start */}
+                        <div className="form-group">
+                            <label htmlFor="postTitle" className="color-red">Title</label>
+                            <input
+                                form="form"
+                                type="text"
+                                id="postTitle"
+                                required="required"
+                                name="postTitle"
+                                value={postTitle}
+                                placeholder="title / name"
+                                className="form-control"
+                                onChange={handleFieldChange}
+                            />
+                            { /* Helper */}
+                            <small className="text-secondary">Type Item name</small>
+
+                        </div>
+                        { /* Title - End */}
 
                         { /* Status - Start */}
                         <div className="form-group">
@@ -714,57 +579,33 @@ function PostInfo(props) {
                                 <option value="active">Active</option>
                                 <option value="sold">Sold</option>
                             </select>
-                            <small className="text-secondary">Enter property Status</small>
+                            <small className="text-secondary">Select post Status</small>
 
                         </div>
-                        { /* Status - End */}
+                        { /* Status - End */} 
 
-                        { /* Type - Start */}
-                        <div className="form-group ">
-                            <label htmlFor="postType" className="color-red">Type</label>
+                        { /* Gender - Start */}
+                        <div className="form-group">
+                            <label htmlFor="postGender" className="color-red">Gender</label>
                             <select
                                 form="form"
-                                id="postType"
-                                name="postType"
-                                value={postType}
+                                id="postGender"
+                                name="postGender"
+                                value={postGender}
                                 required="required"
                                 className="form-control"
                                 onChange={handleFieldChange}
                             >
-                                <option value="">Select Property Type</option>
-                                <option value="single family">Single Family</option>
-                                <option value="condo">Condo</option>
-                                <option value="apartment">Apartment</option>
-                                <option value="land">Land</option>
-                                <option value="farm">Farm</option>
+                                <option value="">Select a Gender</option>
+                                <option value="men">Men </option>
+                                <option value="women">Women</option>
+                                <option value="kids">Kids</option>
+                                <option value="all">All</option>
                             </select>
-                            <small className="text-secondary">Enter property type</small>
+                            <small className="text-secondary">Select a gender</small>
 
                         </div>
-                        { /* Type - End */}
-
-                        { /* Style - Start */}
-                        <div className="form-group ">
-                            <label htmlFor="postStyle" className="color-red">Style</label>
-                            <select
-                                form="form"
-                                id="postStyle"
-                                name="postStyle"
-                                value={postStyle}
-                                required="required"
-                                className="form-control"
-                                onChange={handleFieldChange}
-                            >
-                                <option value="">Select Property Style</option>
-                                <option value="english">English</option>
-                                <option value="spanish">Spanish</option>
-                                <option value="french">French</option>
-                                <option value="traditional">Traditional</option>
-                            </select>
-                            <small className="text-secondary">Enter property style</small>
-
-                        </div>
-                        { /* Style - End */}
+                        { /* Gender - End */}                        
 
                         { /* Price - Start */}
                         <div className="form-group">
@@ -779,70 +620,35 @@ function PostInfo(props) {
                                 className="form-control"
                                 onChange={handleFieldChange}
                             />                     
-                            <small className="text-secondary">Enter the property price </small> 
+                            <small className="text-secondary">Enter the item's price </small> 
                         </div>
                         { /* Price - Start */}
 
-                        { /* Acreage - Start */}
+                        { /* Quantity - Start */}
                         <div className="form-group">
-                            <label htmlFor="postAcreage" className="color-red">Acreage</label>
+                            <label htmlFor="postQuantity" className="color-red">Quantity</label>
                             <input
                                 form="form"
                                 type="number"
-                                id="postAcreage"
-                                name="postAcreage"
-                                value={postAcreage}
-                                placeholder="acres"
+                                id="postQuantity"
+                                name="postQuantity"
+                                value={postQuantity}
+                                placeholder="quantity available"
                                 className="form-control"
                                 onChange={handleFieldChange}
                             />
-                            <small className="text-secondary">Enter the property price </small>
+                            <small className="text-secondary">Enter the quantity </small>
                         </div>
-                        { /* Acreage - End */}
-
-                        { /* Number of baths - Start */}
-                        <div className="form-group">
-                            <label htmlFor="numberOfBaths" className="color-red"># of Baths</label>
-                            <input
-                                form="form"
-                                type="number"
-                                id="numberOfBaths"
-                                placeholder="baths"
-                                name="numberOfBaths"
-                                value={numberOfBaths}
-                                className="form-control"
-                                onChange={handleFieldChange}
-                            />
-                            <small className="text-secondary">Enter the number of bathrooms </small>
-                        </div>
-                        { /* Number of baths - End */}
-
-                        { /* Number of bedrooms - Start */}
-                        <div className="form-group">
-                            <label htmlFor="numberOfBedrooms" className="color-red"># of Bedrooms</label>
-                            <input
-                                form="form"
-                                type="number"
-                                id="numberOfBedrooms"
-                                placeholder="bedrooms"
-                                name="numberOfBedrooms"
-                                className="form-control"
-                                value={numberOfBedrooms}
-                                onChange={handleFieldChange}
-                            />
-                            <small className="text-secondary">Enter the number of bedrooms </small>
-                        </div>
-                        { /* Number of bedrooms - End */}                        
-
+                        { /* Quantity - End */}
                         
                     </div>
-                    { /* Property Information - End */}
+                    { /* Information - End */}
 
                 </div>
-                { /* Property Information - End */}
+                { /* Information - End */}
 
             </div>
-            { /* Organization, Property Address, & Property Information - Start */}
+            { /* Seller, Description, & Information - Start */}
 
             { /* form, Post Description, Submit Button - Start */}
             <div className="col-sm-12 m-0">
@@ -890,12 +696,9 @@ function Preview(props) {
     const {
 
         image1, 
-        postType,
+        postTitle,
         postPrice,
         postStatus,
-        postAcreage,
-        numberOfBaths,
-        numberOfBedrooms,
 
     } = props;
 
@@ -903,27 +706,44 @@ function Preview(props) {
     return (
         <div className="col-sm bg-light border mt-3 py-3">
             <article className="shadow rounded bg-white" style={{ position: "sticky", top: "0" }}>
-                <div className="card border-0">
+                <div className="card border-0 text-center w-100">
 
                     { /* Image - Start */}
                     <img
                         src={image1 === null ? null : image1}
                         style={{ minHeight: "250px" }}
                         className="w-100 bg-dark"
-                    /> 
+                    />
                     { /* Image - End */}
+
+                    { /* Overlay - Start */}
+                    <div className="card-img-overlay">
+                        <div className="overlay-top">
+                            <span className="badge badge-info rounded float-left"> {postStatus} </span>
+                        </div>
+                    </div>
+                    { /* Overlay - End */}
 
                     { /* Body - Start */}
                     <div className="card-body">
-                        <span className="badge badge-primary rounded">{postStatus} - 4 HOURS AGO </span>
-                        <p className="m-0"><small>{postType}</small></p> 
-                        <p><b>${postPrice}</b></p>
-                        <p className="card-text">{numberOfBedrooms} bed - {numberOfBaths} bath - {postAcreage} sqft lot</p>
+                        <p className="m-0" >
+                            <i className="fa fa-star-o" role="img" aria-label="star"></i>
+                            <i className="fa fa-star-o" role="img" aria-label="star"></i>
+                            <i className="fa fa-star-o" role="img" aria-label="star"></i>
+                            <i className="fa fa-star-o" role="img" aria-label="star"></i>
+                            <i className="fa fa-star-half-full" role="img" aria-label="star"></i>
+                        </p>
+                        <p className="m-0 text-dark" style={{ fontSize: "1.3rem" }}><small>{postTitle}</small></p>
+                        <p>
+                            <b className="text-danger"> ${postPrice} </b>
+                            <del className="text-secondary"> ${postPrice} </del>
+                        </p>
                     </div>
                     { /* Body - End */}
 
                 </div>
             </article>
         </div>
+        
         );
 }

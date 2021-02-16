@@ -1,11 +1,13 @@
-#Navigation .nav-link{
-    color:darkslategrey;
+#Navigation.bg-red {
+    background-color: #8c6835!important;
+}
+#Navigation .nav-link{ 
+    color:white;
     text-transform:uppercase;
     font-size: .9em;
     font-weight:bolder;
 }
-#Navigation .navbar-brand {
-    color:darkslategrey;
+#Navigation .navbar-brand { 
     font-weight:bolder;
     text-transform:uppercase;
     font-size: 1.8em;

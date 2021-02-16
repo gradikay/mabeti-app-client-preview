@@ -7,7 +7,9 @@ import { API } from "aws-amplify";
 import { S3Image } from 'aws-amplify-react'; 
 import { useAppContext } from "../libs/contextLib";
 // CSS
-import "../css/Dashboard.css"
+import "../css/Dashboard.css";
+import { data as dummyPosts } from "../DummyData/data"
+
 // -------------- Application Begins Bellow ------------ //
 
 // Main Application
@@ -28,20 +30,11 @@ export default function Dashboard() {
 
             setIsLoading(true);
 
-            // Loading products from Dynamodb
-            function loadPosts() {
-                // Note: "posts" is the [API] -> [endpoint] -> [name] in src -> index.js
-                return API.get("posts", "/posts");
-            } 
-
             try {
 
-                // Important variable
-                const posts = await loadPosts();
 
                 if (!unmounted) {
-                    // Saving retreived data into posts variable
-                    setPosts(posts);
+
                 }
 
                 setIsLoading(false);
@@ -74,13 +67,13 @@ export default function Dashboard() {
                 userEmail={userEmail}
                 userFirstName={userFirstName}
                 signedupDate={signedupDate}
-                userLastName={userLastName} 
-                posts={posts && posts}
+                userLastName={userLastName}
+                posts={dummyPosts}
             /> 
             {/* Header - End */}
 
             {/* Posts - Start */}
-            <Posts posts={posts} isLoading={isLoading} /> 
+            <Posts isLoading={isLoading} /> 
             {/* Posts - End */}
 
         </main>
@@ -97,10 +90,16 @@ function Header(props) {
     return (
         <header className="container-fluid border-bottom py-3 bg-light">
             <div className="row justify-content-center align-items-center">
+
                 <div className="col-sm-3 text-center">
+                    { /* Heading */ }
                     <h1>Dashboard </h1>
+
+                    { /* Button */ }
                     <Link to="/postnew" className="btn btn-warning"> + NEW POST <i className="fa fa-share"></i></Link> 
                 </div>
+
+                { /* User Information - Start */ }
                 <div className="col-sm-3">
                     <ul className="list-group list-group-flush"> 
                         <li className="list-group-item bg-light">User Id: {userId} </li>
@@ -114,76 +113,74 @@ function Header(props) {
                         <li className="list-group-item bg-light">Email: {userEmail}</li>
                     </ul>
                 </div>
+                { /* User Information - End */}
+
             </div>
         </header>
         );
 }
 
 // User Posts Function
-function Posts({ posts, isLoading }) {
+function Posts({ isLoading }) {
 
     // Return UI
     return (
         <div className="container row mx-auto py-5">
+
+            {/* Posts - Start */}
             {!isLoading ?
 
                 // Display after we have loaded our data
-                posts.map((post, i) => {
+                dummyPosts.map((post, i) => {
 
 
                     // Important variables
-                    const { image1 } = post.images;
-                    const { streetState, streetCity } = post.address;
-                    const { postId, userId, postStatus } = post;
+                    const { imageA } = post.images;
+                    const { userId, postStatus, postTitle, postId } = post;
                     const convertDate = new Date(post.createdAt);
                     const postedOn = convertDate.toDateString();
                     const price = Number(post.postPrice).toLocaleString();
 
-
                     // Return UI
                     return (
-                        <div className="col-sm-6 col-md-4 text-white p-2" key={i++}>
+                        <div className="col-sm-6 col-lg-4 text-center p-2" key={i++}>
 
                             <div className="card shadow-sm">
 
                                 { /* Image - Start */}
-                                <S3Image level="protected" identityId={userId} imgKey={image1} />
+                                <img src={imageA} />
                                 { /* Image - End */}
                                  
                                 { /* Overlay - Start */}
                                 <div className="card-img-overlay">
-
-                                    { /* Top Overlay */}
                                     <div className="overlay-top">
-                                        <span className="badge badge-primary rounded">
-                                            {postStatus} - {postedOn}
-                                        </span>
+                                        <span className="badge badge-info rounded float-left text-capitalize">{postStatus}</span>
                                     </div>
-
-                                    { /* Bottom Overlay */}
-                                    <div className="overlay-bottom">
-                                        <p className="m-0"><small>{streetCity}, {streetState}</small></p>
-                                        <p className="m-0"><b>${price}</b></p>
-                                    </div>
-
-                                </div> 
+                                </div>
                                 { /* Overlay - End */} 
 
                                 { /* Body card - Start */} 
-                                <div className="card-body bg-white text-center">
-                                    <div className="btn-group" style={{ zIndex: "1" }}>  
-
-                                        <Link to={`/postedit/${postId}`} className="btn btn-danger">
-                                            <i className="fa fa-minus-square"></i> Edit
-                                        </Link>  
-
-                                        <Link to={`/view/${postId}`} className="btn btn-info">
-                                            <i className="fa fa-external-link-square"></i> View
-                                        </Link>  
-                                    </div>
+                                <div className="card-body">
+                                    <p className="m-0" >
+                                        <i className="fa fa-star-o" role="img" aria-label="star"></i>
+                                        <i className="fa fa-star-o" role="img" aria-label="star"></i>
+                                        <i className="fa fa-star-o" role="img" aria-label="star"></i>
+                                        <i className="fa fa-star-o" role="img" aria-label="star"></i>
+                                        <i className="fa fa-star-half-full" role="img" aria-label="star"></i>
+                                    </p>
+                                    <p className="m-0" style={{ fontSize: "1.3rem" }}><small>{postTitle}</small></p>
+                                    <p>
+                                        <b className="text-danger"> ${ price } </b>
+                                        <del className="text-secondary"> ${ price } </del>
+                                    </p>
                                 </div>
                                 { /* Body card - End */} 
 
+                            </div>
+                            <div class="btn-group my-2">
+                                <a href={`/postedit/${postId}`} role="button" class="btn btn-warning">Edit</a>
+                                <a href={`/view/${postId}`} role="button" class="btn btn-info">View</a>
+                                <button type="button" class="btn btn-light disabled">{postedOn} </button>
                             </div>
 
                         </div>
@@ -192,7 +189,9 @@ function Posts({ posts, isLoading }) {
                     :
                 // Display while Loading data
                 "Loading"
-            }           
+            } 
+            {/* Posts - End */}
+            
         </div>
         );
 } 

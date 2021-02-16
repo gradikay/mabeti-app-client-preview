@@ -1,9 +1,7 @@
 // This file is exported to ---> src/Routes.js
 // React required
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-// Amplify required
-import { Auth } from "aws-amplify";
+import { Link } from "react-router-dom"; 
 // Components
 import LoaderButton from "../components/LoaderButton";
 // Libs
@@ -34,11 +32,9 @@ export default function Login() {
 
         setIsLoading(true);
         try {
-            // Getting the user email and password 
-            await Auth.signIn(fields.email, fields.password);
-
             // Setting userHasAuthenticated to "True" in userAppContext() 
             userHasAuthenticated(true);
+            // Reload the application
             window.location.reload();
 
         } catch (e) {
@@ -55,7 +51,7 @@ export default function Login() {
 
                 { /* Header - Start */}
                 <header className="col-sm-9 text-center border-bottom mb-3 mx-auto">
-                    <h1>Larissa</h1> 
+                    <h1>Mabeti</h1> 
                     <p> Not a Member? <Link to="/register"> Signup here </Link> </p>
                 </header>
                 { /* Header - End */}
@@ -116,7 +112,7 @@ export default function Login() {
                     { /* Lower Section - Start */}
                     <section className="p-2 border-top">
                         <p className="border-bottom pb-3">
-                            <small>By signing in, you agree to Larissa's <a href="#">Terms of Service</a> and <a href="#">Privacy Notice</a>. </small>
+                            <small>By signing in, you agree to Mabeti's <a href="#">Terms of Service</a> and <a href="#">Privacy Notice</a>. </small>
                         </p>
 
                         <Link to="/reset"> Forgot password? </Link>
