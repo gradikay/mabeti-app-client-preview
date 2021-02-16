@@ -115,18 +115,18 @@ function AuthenticatedLinks({ handleLogout }) {
                         <i className="fa fa-ban fa-spin"></i> Dashboard
                     </Link>
                 </li>  
+                { /* Logout - Start */}
+                <li className="nav-item dropdown" style={{ cursor: "pointer" }}>
+                    <span
+                        className="nav-link"
+                        onClick={handleLogout}
+                    > Logout</span>
+                </li>
+                { /* Logout - End */}
 
             </ul>
             { /* Compte - End */}
 
-            { /* Logout - Start */}
-            <div className="nav-item dropdown" style={{ cursor: "pointer" }}>
-                <span
-                    className="nav-link"
-                    onClick={handleLogout}
-                > Logout</span>
-            </div>
-            { /* Logout - End */}
         </>
         );
 }
