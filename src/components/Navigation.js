@@ -39,7 +39,7 @@ export default function Navigation() {
                 {/* Brand - Ebd */}
 
                 { /* Toggler/collapsibe Button - Start */}
-                <button className="navbar-toggler mr-5" type="button" data-toggle="collapse" data-target="#collapsibleNavbar1">
+                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar1">
                     <i className='fa fa-server' role="img" aria-label="menu"></i>
                 </button>
                 { /* Toggler/collapsibe Button - End */}
@@ -134,7 +134,7 @@ function AuthenticatedLinks({ handleLogout }) {
 // Links for public users
 function UnauthenticatedLinks() {
     return (
-        <ul className="navbar-nav">
+        <ul className="navbar-nav px-3 px-sm-0">
             { /* Register - Start */}
             <li className="nav-item">
                 <Link className="nav-link" to="/register">
