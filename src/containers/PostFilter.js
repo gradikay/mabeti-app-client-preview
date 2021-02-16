@@ -91,7 +91,7 @@ function Header(props) {
             <div className="dropdown">
 
                 { /* Button - Start */ }
-                <button type="button" className="btn" data-toggle="dropdown">
+                <button type="button" className="btn mr-3 mb-3 mb-sm-0" data-toggle="dropdown">
                     Filter <i className="fa fa-sliders"></i>
                 </button>
                 { /* Button - End */}
@@ -123,7 +123,7 @@ function Search(props) {
 
     // Return UI
     return (
-        <div className="nav-item pl-md-3 mt-3 mt-sm-0">
+        <div className="nav-item">
 
             { /* Form - Start */}
             <form onSubmit={handleSearch}>

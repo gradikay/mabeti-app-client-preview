@@ -2,8 +2,11 @@
   "ExpandedNodes": [
     "",
     "\\public",
-    "\\src"
+    "\\src",
+    "\\src\\containers",
+    "\\src\\DummyData",
+    "\\src\\img"
   ],
-  "SelectedNode": "\\src\\DummyData",
+  "SelectedNode": "\\public\\android-chrome-512x512.png",
   "PreviewInSolutionExplorer": false
 }
