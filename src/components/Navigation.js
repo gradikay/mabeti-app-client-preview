@@ -120,7 +120,7 @@ function AuthenticatedLinks({ handleLogout }) {
                     <span
                         className="nav-link"
                         onClick={handleLogout}
-                    > Logout</span>
+                    > <i className="fa fa-sign-out"></i> Logout</span>
                 </li>
                 { /* Logout - End */}
 
