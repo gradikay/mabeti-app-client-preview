@@ -103,7 +103,7 @@ function AuthenticatedLinks({ handleLogout }) {
         <> 
 
             { /* Compte - Start */}
-            <ul className="navbar-nav">
+            <ul className="navbar-nav px-3 px-sm-0">
 
                 <li className="nav-item">
                     <Link className="nav-link" to="/postnew">
