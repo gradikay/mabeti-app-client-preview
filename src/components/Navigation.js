@@ -32,7 +32,7 @@ export default function Navigation() {
 
 
             {/* Navigation - Start */}
-            <nav id="Navigation" className="navbar navbar-expand-md bg-red navbar-dark">
+            <nav id="Navigation" className="navbar navbar-expand-lg bg-red navbar-dark">
 
                 {/* Brand - Start */}
                 <Link className="navbar-brand p-0" to="/">Mabeti</Link>
